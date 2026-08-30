@@ -9,7 +9,7 @@
 // ============================================================
 
 // ⚠️ KEEP YOUR REAL VALUES HERE
-const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_VyVQ-v-FkOg6LIkk-gdwtQ_auoGdvSo";
 
 
