@@ -1,6 +1,6 @@
 // ============================================================
 // IDORA — SMART MATERIAL INTELLIGENCE
-// Complete Supabase Application Logic
+// Inventory + Usage + Live Stock Calculation
 // ============================================================
 
 
@@ -8,7 +8,8 @@
 // 1. SUPABASE CONFIGURATION
 // ============================================================
 
-const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co";
+// ⚠️ KEEP YOUR REAL VALUES HERE
+const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co/rest/v1/";
 const SUPABASE_KEY = "sb_publishable_VyVQ-v-FkOg6LIkk-gdwtQ_auoGdvSo";
 
 
@@ -17,12 +18,8 @@ const SUPABASE_KEY = "sb_publishable_VyVQ-v-FkOg6LIkk-gdwtQ_auoGdvSo";
 // ============================================================
 
 if (!window.supabase) {
-
     console.error("Supabase library failed to load.");
-
-    throw new Error(
-        "Supabase library unavailable."
-    );
+    throw new Error("Supabase library unavailable.");
 }
 
 const dbClient = window.supabase.createClient(
@@ -35,106 +32,54 @@ const dbClient = window.supabase.createClient(
 // 3. DOM ELEMENTS
 // ============================================================
 
-// Inward form
-const materialForm =
-    document.getElementById("materialForm");
+// Inward
+const materialForm = document.getElementById("materialForm");
+const matName = document.getElementById("matName");
+const matQty = document.getElementById("matQty");
+const matPrice = document.getElementById("matPrice");
+const computedTotal = document.getElementById("computedTotal");
+const saveButton = document.getElementById("saveButton");
 
-const matName =
-    document.getElementById("matName");
-
-const matQty =
-    document.getElementById("matQty");
-
-const matPrice =
-    document.getElementById("matPrice");
-
-const computedTotal =
-    document.getElementById("computedTotal");
-
-const saveButton =
-    document.getElementById("saveButton");
-
-
-// Usage form
-const usageForm =
-    document.getElementById("usageForm");
-
-const usageMaterial =
-    document.getElementById("usageMaterial");
-
-const usageQty =
-    document.getElementById("usageQty");
-
-const usedFor =
-    document.getElementById("usedFor");
-
-const usageSaveButton =
-    document.getElementById("usageSaveButton");
-
-const usageMessage =
-    document.getElementById("usageMessage");
-
+// Usage
+const usageForm = document.getElementById("usageForm");
+const usageMaterial = document.getElementById("usageMaterial");
+const usageQty = document.getElementById("usageQty");
+const usedFor = document.getElementById("usedFor");
+const usageSaveButton = document.getElementById("usageSaveButton");
+const usageMessage = document.getElementById("usageMessage");
 
 // Messages
-const formMessage =
-    document.getElementById("formMessage");
-
+const formMessage = document.getElementById("formMessage");
 
 // Ledger
-const inventoryRows =
-    document.getElementById("inventoryRows");
+const inventoryRows = document.getElementById("inventoryRows");
+const refreshButton = document.getElementById("refreshButton");
 
-const refreshButton =
-    document.getElementById("refreshButton");
-
-
-// Statistics
-const totalEntries =
-    document.getElementById("totalEntries");
-
-const stockValue =
-    document.getElementById("stockValue");
-
-const materialTypes =
-    document.getElementById("materialTypes");
-
-const lowStock =
-    document.getElementById("lowStock");
-
+// Stats
+const totalEntries = document.getElementById("totalEntries");
+const stockValue = document.getElementById("stockValue");
+const materialTypes = document.getElementById("materialTypes");
+const lowStock = document.getElementById("lowStock");
 
 // Tabs
-const inwardTab =
-    document.getElementById("inwardTab");
-
-const usageTab =
-    document.getElementById("usageTab");
-
-const inwardPanel =
-    document.getElementById("inwardPanel");
-
-const usagePanel =
-    document.getElementById("usagePanel");
+const inwardTab = document.getElementById("inwardTab");
+const usageTab = document.getElementById("usageTab");
+const inwardPanel = document.getElementById("inwardPanel");
+const usagePanel = document.getElementById("usagePanel");
 
 
 // ============================================================
-// 4. MESSAGE HELPER
+// 4. MESSAGE HELPERS
 // ============================================================
 
 function showMessage(message, type) {
-
     formMessage.textContent = message;
-
-    formMessage.className =
-        `message ${type}`;
+    formMessage.className = `message ${type}`;
 }
 
-
 function showUsageMessage(message, type) {
-
     usageMessage.textContent = message;
-
-    usageMessage.className =
-        `message ${type}`;
+    usageMessage.className = `message ${type}`;
 }
 
 
@@ -143,17 +88,11 @@ function showUsageMessage(message, type) {
 // ============================================================
 
 function formatRupees(value) {
-
     return new Intl.NumberFormat("en-IN", {
-
         style: "currency",
-
         currency: "INR",
-
         minimumFractionDigits: 2
-
     }).format(Number(value) || 0);
-
 }
 
 
@@ -163,25 +102,17 @@ function formatRupees(value) {
 
 function updateCalculatedTotal() {
 
-    const quantity =
-        Number(matQty.value) || 0;
-
-    const price =
-        Number(matPrice.value) || 0;
-
-    const total =
-        quantity * price;
+    const quantity = Number(matQty.value) || 0;
+    const price = Number(matPrice.value) || 0;
 
     computedTotal.textContent =
-        formatRupees(total);
+        formatRupees(quantity * price);
 }
-
 
 matQty.addEventListener(
     "input",
     updateCalculatedTotal
 );
-
 
 matPrice.addEventListener(
     "input",
@@ -193,36 +124,28 @@ matPrice.addEventListener(
 // 7. TAB SWITCHING
 // ============================================================
 
-inwardTab.addEventListener(
-    "click",
-    function () {
+inwardTab.addEventListener("click", function () {
 
-        inwardTab.classList.add("active");
-        usageTab.classList.remove("active");
+    inwardTab.classList.add("active");
+    usageTab.classList.remove("active");
 
-        inwardPanel.style.display = "block";
-        usagePanel.style.display = "none";
-
-    }
-);
+    inwardPanel.style.display = "block";
+    usagePanel.style.display = "none";
+});
 
 
-usageTab.addEventListener(
-    "click",
-    function () {
+usageTab.addEventListener("click", function () {
 
-        usageTab.classList.add("active");
-        inwardTab.classList.remove("active");
+    usageTab.classList.add("active");
+    inwardTab.classList.remove("active");
 
-        inwardPanel.style.display = "none";
-        usagePanel.style.display = "block";
-
-    }
-);
+    inwardPanel.style.display = "none";
+    usagePanel.style.display = "block";
+});
 
 
 // ============================================================
-// 8. FETCH INVENTORY
+// 8. FETCH ALL DATA
 // ============================================================
 
 async function fetchInventory() {
@@ -237,20 +160,37 @@ async function fetchInventory() {
 
     try {
 
-        const { data, error } =
+        // Get inward records
+        const { data: inventory, error: inventoryError } =
             await dbClient
                 .from("inventory")
                 .select("*")
                 .order("id", {
-                    ascending: false
+                    ascending: true
                 });
 
-        if (error) {
-            throw error;
+        if (inventoryError) {
+            throw inventoryError;
         }
 
-        renderInventory(
-            data || []
+
+        // Get usage records
+        const { data: usage, error: usageError } =
+            await dbClient
+                .from("material_usage")
+                .select("*")
+                .order("id", {
+                    ascending: true
+                });
+
+        if (usageError) {
+            throw usageError;
+        }
+
+
+        calculateAndRender(
+            inventory || [],
+            usage || []
         );
 
     }
@@ -258,7 +198,7 @@ async function fetchInventory() {
     catch (error) {
 
         console.error(
-            "Inventory fetch error:",
+            "Database fetch error:",
             error
         );
 
@@ -281,10 +221,111 @@ async function fetchInventory() {
 
 
 // ============================================================
-// 9. RENDER INVENTORY
+// 9. CALCULATE ACTUAL STOCK
 // ============================================================
 
-function renderInventory(data) {
+function calculateAndRender(
+    inventory,
+    usage
+) {
+
+    /*
+     * We calculate:
+     *
+     * AVAILABLE STOCK
+     * =
+     * TOTAL INWARD - TOTAL USED
+     */
+
+
+    // --------------------------------------------------------
+    // Calculate total usage for each material
+    // --------------------------------------------------------
+
+    const usageTotals = {};
+
+    usage.forEach(record => {
+
+        const name =
+            record.material_name;
+
+        const quantity =
+            Number(record.quantity) || 0;
+
+        usageTotals[name] =
+            (usageTotals[name] || 0) + quantity;
+    });
+
+
+    // --------------------------------------------------------
+    // Calculate total inward for each material
+    // --------------------------------------------------------
+
+    const inwardTotals = {};
+
+    inventory.forEach(record => {
+
+        const name =
+            record.material_name;
+
+        const quantity =
+            Number(record.quantity) || 0;
+
+        inwardTotals[name] =
+            (inwardTotals[name] || 0) + quantity;
+    });
+
+
+    // --------------------------------------------------------
+    // Calculate available stock
+    // --------------------------------------------------------
+
+    const availableStock = {};
+
+    Object.keys(inwardTotals).forEach(name => {
+
+        const inward =
+            inwardTotals[name] || 0;
+
+        const used =
+            usageTotals[name] || 0;
+
+        availableStock[name] =
+            Math.max(0, inward - used);
+    });
+
+
+    // --------------------------------------------------------
+    // Render ledger
+    // --------------------------------------------------------
+
+    renderInventory(
+        inventory,
+        usageTotals,
+        availableStock
+    );
+
+
+    // --------------------------------------------------------
+    // Update dashboard
+    // --------------------------------------------------------
+
+    updateStats(
+        inventory,
+        availableStock
+    );
+}
+
+
+// ============================================================
+// 10. RENDER INVENTORY
+// ============================================================
+
+function renderInventory(
+    data,
+    usageTotals,
+    availableStock
+) {
 
     inventoryRows.innerHTML = "";
 
@@ -300,26 +341,71 @@ function renderInventory(data) {
             </tr>
         `;
 
-        updateStats([]);
-
         return;
     }
 
 
+    /*
+     * Usage is deducted FIFO-style from inward entries.
+     *
+     * Example:
+     *
+     * Entry 1 → 50 cement
+     * Entry 2 → 30 cement
+     * Used → 60 cement
+     *
+     * Remaining:
+     * Entry 1 → 0
+     * Entry 2 → 20
+     */
+
+
+    const remainingUsage = {
+        ...usageTotals
+    };
+
+
     data.forEach(item => {
 
-        const quantity =
+        const name =
+            item.material_name;
+
+        const inwardQuantity =
             Number(item.quantity) || 0;
 
         const price =
             Number(item.unit_price) || 0;
 
-        const total =
-            Number(item.total_cost) ||
-            quantity * price;
+
+        let usedFromThisEntry = 0;
+
+
+        if (remainingUsage[name] > 0) {
+
+            usedFromThisEntry =
+                Math.min(
+                    inwardQuantity,
+                    remainingUsage[name]
+                );
+
+            remainingUsage[name] -=
+                usedFromThisEntry;
+        }
+
+
+        const availableQuantity =
+            Math.max(
+                0,
+                inwardQuantity - usedFromThisEntry
+            );
+
+
+        const remainingValue =
+            availableQuantity * price;
+
 
         const isLowStock =
-            quantity < 15;
+            availableStock[name] < 15;
 
 
         const row =
@@ -327,23 +413,18 @@ function renderInventory(data) {
 
 
         if (isLowStock) {
-
-            row.classList.add(
-                "alert-row"
-            );
+            row.classList.add("alert-row");
         }
 
 
         row.innerHTML = `
 
             <td class="material-name">
-                ${escapeHTML(
-                    item.material_name
-                )}
+                ${escapeHTML(name)}
             </td>
 
             <td>
-                ${quantity}
+                ${availableQuantity}
             </td>
 
             <td class="price">
@@ -351,7 +432,7 @@ function renderInventory(data) {
             </td>
 
             <td>
-                ${formatRupees(total)}
+                ${formatRupees(remainingValue)}
             </td>
 
             <td>
@@ -377,67 +458,94 @@ function renderInventory(data) {
 
 
         inventoryRows.appendChild(row);
-
     });
-
-
-    updateStats(data);
 }
 
 
 // ============================================================
-// 10. DASHBOARD STATISTICS
+// 11. DASHBOARD STATISTICS
 // ============================================================
 
-function updateStats(data) {
+function updateStats(
+    inventory,
+    availableStock
+) {
 
-    const total =
-        data.reduce(
-
-            (sum, item) =>
-
-                sum +
-                (Number(item.total_cost) || 0),
-
-            0
-        );
-
-
-    const types =
-        new Set(
-
-            data.map(
-                item => item.material_name
-            )
-
-        ).size;
-
-
-    const low =
-        data.filter(
-
-            item =>
-                Number(item.quantity) < 15
-
-        ).length;
-
-
+    // Total database entries
     totalEntries.textContent =
-        data.length;
+        inventory.length;
 
-    stockValue.textContent =
-        formatRupees(total);
+
+    // Unique material types
+    const types =
+        Object.keys(availableStock).length;
+
 
     materialTypes.textContent =
         types;
 
+
+    // Low-stock materials
+    const low =
+        Object.values(
+            availableStock
+        ).filter(
+            quantity => quantity < 15
+        ).length;
+
+
     lowStock.textContent =
         low;
+
+
+    // --------------------------------------------------------
+    // Calculate current stock value
+    // --------------------------------------------------------
+
+    const prices = {};
+
+
+    inventory.forEach(item => {
+
+        const name =
+            item.material_name;
+
+        const price =
+            Number(item.unit_price) || 0;
+
+        /*
+         * Keep the latest known unit price
+         * for each material.
+         */
+
+        prices[name] = price;
+    });
+
+
+    let currentValue = 0;
+
+
+    Object.entries(
+        availableStock
+    ).forEach(
+        ([name, quantity]) => {
+
+            const price =
+                prices[name] || 0;
+
+            currentValue +=
+                quantity * price;
+        }
+    );
+
+
+    stockValue.textContent =
+        formatRupees(currentValue);
 }
 
 
 // ============================================================
-// 11. SAVE INCOMING MATERIAL
+// 12. SAVE INCOMING MATERIAL
 // ============================================================
 
 materialForm.addEventListener(
@@ -476,7 +584,8 @@ materialForm.addEventListener(
             quantity * price;
 
 
-        saveButton.disabled = true;
+        saveButton.disabled =
+            true;
 
         saveButton.textContent =
             "Saving...";
@@ -497,11 +606,8 @@ materialForm.addEventListener(
 
                         {
                             material_name: name,
-
                             quantity: quantity,
-
                             unit_price: price,
-
                             total_cost: totalCost
                         }
 
@@ -521,14 +627,10 @@ materialForm.addEventListener(
 
             materialForm.reset();
 
-
             matQty.value = 50;
-
             matPrice.value = 450;
 
-
             updateCalculatedTotal();
-
 
             await fetchInventory();
 
@@ -551,18 +653,18 @@ materialForm.addEventListener(
 
         finally {
 
-            saveButton.disabled = false;
+            saveButton.disabled =
+                false;
 
             saveButton.textContent =
                 "Save Material";
         }
-
     }
 );
 
 
 // ============================================================
-// 12. SAVE MATERIAL USAGE
+// 13. SAVE MATERIAL USAGE
 // ============================================================
 
 usageForm.addEventListener(
@@ -597,20 +699,98 @@ usageForm.addEventListener(
         }
 
 
-        usageSaveButton.disabled =
-            true;
-
-        usageSaveButton.textContent =
-            "Saving...";
-
-
-        showUsageMessage(
-            "Recording material consumption...",
-            "success"
-        );
-
+        // ----------------------------------------------------
+        // Check current available stock
+        // ----------------------------------------------------
 
         try {
+
+            const { data: inventory, error: inventoryError } =
+                await dbClient
+                    .from("inventory")
+                    .select("material_name, quantity");
+
+            if (inventoryError) {
+                throw inventoryError;
+            }
+
+
+            const { data: usage, error: usageError } =
+                await dbClient
+                    .from("material_usage")
+                    .select("material_name, quantity");
+
+            if (usageError) {
+                throw usageError;
+            }
+
+
+            let totalInward = 0;
+            let totalUsed = 0;
+
+
+            (inventory || []).forEach(item => {
+
+                if (
+                    item.material_name === material
+                ) {
+
+                    totalInward +=
+                        Number(item.quantity) || 0;
+                }
+            });
+
+
+            (usage || []).forEach(item => {
+
+                if (
+                    item.material_name === material
+                ) {
+
+                    totalUsed +=
+                        Number(item.quantity) || 0;
+                }
+            });
+
+
+            const available =
+                Math.max(
+                    0,
+                    totalInward - totalUsed
+                );
+
+
+            // ------------------------------------------------
+            // Prevent impossible usage
+            // ------------------------------------------------
+
+            if (quantity > available) {
+
+                showUsageMessage(
+                    `Not enough ${material} in stock. Available: ${available}`,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // Save usage
+            // ------------------------------------------------
+
+            usageSaveButton.disabled =
+                true;
+
+            usageSaveButton.textContent =
+                "Saving...";
+
+
+            showUsageMessage(
+                "Recording material consumption...",
+                "success"
+            );
+
 
             const { error } =
                 await dbClient
@@ -619,9 +799,7 @@ usageForm.addEventListener(
 
                         {
                             material_name: material,
-
                             quantity: quantity,
-
                             used_for: purpose
                         }
 
@@ -644,16 +822,7 @@ usageForm.addEventListener(
             usageQty.value = 10;
 
 
-            /*
-             * Refresh the inventory after recording usage.
-             * At this stage the ledger still shows
-             * incoming quantities.
-             *
-             * In the next upgrade we can calculate:
-             *
-             * INWARD - USAGE = ACTUAL STOCK
-             */
-
+            // Refresh everything
             await fetchInventory();
 
         }
@@ -687,7 +856,7 @@ usageForm.addEventListener(
 
 
 // ============================================================
-// 13. REFRESH BUTTON
+// 14. REFRESH BUTTON
 // ============================================================
 
 refreshButton.addEventListener(
@@ -709,48 +878,28 @@ refreshButton.addEventListener(
 
         refreshButton.textContent =
             "Refresh";
-
     }
 );
 
 
 // ============================================================
-// 14. HTML ESCAPING
+// 15. HTML ESCAPING
 // ============================================================
 
 function escapeHTML(value) {
 
     return String(value)
 
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 
 // ============================================================
-// 15. START IDORA
+// 16. START IDORA
 // ============================================================
 
 updateCalculatedTotal();
