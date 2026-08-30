@@ -3,106 +3,683 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Material Tracker</title>
+
+    <title>IDORA — Smart Material Intelligence</title>
+
     <style>
-        /* Base Reset & Layout Layout */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #1e293b; color: white; padding: 30px; }
-        .container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 25px; }
-        @media (max-width: 768px) { .container { grid-template-columns: 1fr; } }
-        
-        /* Header Title App Banner */
-        header { grid-column: span 2; background: #0f172a; padding: 25px; border-radius: 8px; margin-bottom: 10px; border-left: 6px solid #38bdf8; }
-        @media (max-width: 768px) { header { grid-column: span 1; } }
-        header h1 { font-size: 26px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-        header p { font-size: 14px; color: #94a3b8; margin-top: 5px; }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-        /* Panel Containers */
-        .panel { background: #334155; padding: 25px; border-radius: 8px; height: fit-content; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .panel h3 { font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #475569; padding-bottom: 8px; color: #f8fafc; }
-        
-        /* Interactive Input Form Control */
-        label { display: block; margin-top: 15px; font-weight: 600; font-size: 13px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select { width: 100%; padding: 12px; margin-top: 6px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; font-size: 14px; outline: none; }
-        input:focus, select:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
-        button { width: 100%; background: #38bdf8; color: #0f172a; font-weight: bold; padding: 12px; border-radius: 6px; border: none; font-size: 15px; cursor: pointer; transition: all 0.2s ease; margin-top: 25px; }
-        button:hover { background: #0ea5e9; color: white; transform: translateY(-1px); }
-        button:active { transform: translateY(1px); }
+        :root {
+            --bg: #101110;
+            --surface: #191b19;
+            --surface-2: #202320;
+            --surface-3: #292c28;
+            --border: #343833;
 
-        /* Structural Ledger Output Grid View */
-        .table-responsive { overflow-x: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th { background: #0f172a; padding: 14px; font-weight: 600; color: #94a3b8; text-transform: uppercase; font-size: 12px; }
-        td { padding: 14px; border-bottom: 1px solid #475569; color: #e2e8f0; }
-        tr:hover { background: rgba(255,255,255,0.02); }
-        
-        /* Low Stock Utility Alerts */
-        .alert-row { background-color: rgba(239, 68, 68, 0.15) !important; }
-        .alert-row td { color: #fca5a5; }
-        .badge { display: inline-block; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; text-transform: uppercase; }
-        .badge.success { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
-        .badge.danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+            --text: #f4f1e8;
+            --muted: #9b9f96;
+
+            --accent: #d6a84f;
+            --accent-light: #e7c778;
+
+            --green: #7fba87;
+            --red: #e47d70;
+
+            --shadow: 0 20px 50px rgba(0,0,0,.22);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 80% 0%, rgba(214,168,79,.08), transparent 28%),
+                var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', Arial, sans-serif;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .app {
+            width: min(1400px, 94%);
+            margin: auto;
+            padding: 28px 0 50px;
+        }
+
+        /* HEADER */
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(214,168,79,.45);
+            color: var(--accent-light);
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .brand-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 2px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .site-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px rgba(127,186,135,.7);
+        }
+
+        /* HERO */
+
+        .hero {
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(30px, 5vw, 52px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+            max-width: 720px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            margin-top: 12px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .stat {
+            background: linear-gradient(145deg, var(--surface-2), var(--surface));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .stat-value {
+            margin-top: 9px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 27px;
+            font-weight: 600;
+        }
+
+        .stat-accent {
+            color: var(--accent-light);
+        }
+
+        .stat-warning {
+            color: var(--red);
+        }
+
+        /* MAIN GRID */
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .card {
+            background: rgba(25,27,25,.92);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            padding: 21px 22px 17px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px;
+        }
+
+        .card-description {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* FORM */
+
+        .form-body {
+            padding: 22px;
+        }
+
+        .field {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            color: #c4c7bf;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #121412;
+            color: var(--text);
+            border-radius: 10px;
+            padding: 12px 13px;
+            outline: none;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: rgba(214,168,79,.75);
+            box-shadow: 0 0 0 3px rgba(214,168,79,.08);
+        }
+
+        .total-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(214,168,79,.07);
+            border: 1px solid rgba(214,168,79,.18);
+            padding: 14px;
+            border-radius: 11px;
+            margin-top: 4px;
+        }
+
+        .total-label {
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .total-value {
+            color: var(--accent-light);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .save-button {
+            width: 100%;
+            margin-top: 17px;
+            padding: 13px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #17130b;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .save-button:hover {
+            background: var(--accent-light);
+            transform: translateY(-1px);
+        }
+
+        .save-button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
+
+        .message.success {
+            display: block;
+            color: var(--green);
+            background: rgba(127,186,135,.08);
+            border: 1px solid rgba(127,186,135,.2);
+        }
+
+        .message.error {
+            display: block;
+            color: var(--red);
+            background: rgba(228,125,112,.08);
+            border: 1px solid rgba(228,125,112,.2);
+        }
+
+        /* LEDGER */
+
+        .ledger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .refresh-button {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 11px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .refresh-button:hover {
+            color: var(--text);
+            border-color: #555b52;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            padding: 13px 18px;
+            text-align: left;
+            color: var(--muted);
+            background: #151715;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 16px 18px;
+            border-top: 1px solid var(--border);
+            color: #dddcd5;
+            font-size: 13px;
+        }
+
+        tbody tr {
+            transition: .15s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,.025);
+        }
+
+        .material-name {
+            font-weight: 600;
+        }
+
+        .price {
+            color: var(--accent-light);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .badge::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+
+        .badge.success {
+            color: var(--green);
+            background: rgba(127,186,135,.08);
+        }
+
+        .badge.success::before {
+            background: var(--green);
+        }
+
+        .badge.danger {
+            color: var(--red);
+            background: rgba(228,125,112,.08);
+        }
+
+        .badge.danger::before {
+            background: var(--red);
+        }
+
+        .alert-row {
+            background: rgba(228,125,112,.035);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 45px 20px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .app {
+                width: 92%;
+                padding-top: 20px;
+            }
+
+            header {
+                align-items: flex-start;
+            }
+
+            .site-status {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 9px;
+            }
+
+            .stat {
+                padding: 15px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+        }
     </style>
-    <!-- Loading Supabase JS Library Engine via Cloud CDN -->
-    <script src="https://unpkg.com"></script>
 </head>
+
 <body>
 
-    <div class="container">
-        <header>
-            <h1>🏗️ Smart Construction Material Tracker</h1>
-            <p>Live SQL Ledger Connected Directly to Cloud Database | Site Code: JRT-N26</p>
-        </header>
+<div class="app">
 
-        <!-- Input Interactive Management Panel -->
-        <div class="panel">
-            <h3>Log Material Invoice</h3>
-            <form id="materialForm">
-                <label>Material Classification</label>
-                <select id="matName">
-                    <option value="OPC Cement (Bags)">OPC Cement (Bags)</option>
-                    <option value="TMT Steel Bars (Tonnes)">TMT Steel Bars (Tonnes)</option>
-                    <option value="Fine River Sand (Cu.m)">Fine River Sand (Cu.m)</option>
-                    <option value="Coarse Aggregate (Cu.m)">Coarse Aggregate (Cu.m)</option>
-                </select>
-
-                <label>Inward Quantity</label>
-                <input type="number" id="matQty" value="50" min="1" required>
-
-                <label>Unit Market Price (₹)</label>
-                <input type="number" id="matPrice" value="450" min="1" required>
-
-                <button type="submit">Save to Live Database</button>
-            </form>
-        </div>
-
-        <!-- Inventory Database Grid Panel View -->
-        <div class="panel">
-            <h3>Active Site Ledger</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Material Classification</th>
-                            <th>Stock Qty</th>
-                            <th>Avg Price</th>
-                            <th>Total Cost</th>
-                            <th>Status Condition</th>
-                        </tr>
-                    </thead>
-                    <tbody id="inventoryRows">
-                        <!-- Database rows will inject here automatically -->
-                        <tr>
-                            <td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px;">
-                                Connecting to live data engine...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <header>
+        <div class="brand">
+            <div class="logo">ID</div>
+            <div>
+                <div class="brand-name">IDORA</div>
+                <div class="brand-subtitle">Material Intelligence</div>
             </div>
         </div>
-    </div>
 
-    <script src="app.js"></script>
+        <div class="site-status">
+            <span class="live-dot"></span>
+            SITE JRT-N26 · LIVE
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="eyebrow">Construction Material Control</div>
+        <h1>Know what is on site.</h1>
+        <p>
+            Track incoming materials, monitor stock conditions,
+            and keep your construction ledger connected to live data.
+        </p>
+    </section>
+
+    <!-- DASHBOARD STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-label">Total Entries</div>
+            <div class="stat-value" id="totalEntries">—</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Stock Value</div>
+            <div class="stat-value stat-accent" id="stockValue">—</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Materials</div>
+            <div class="stat-value" id="materialTypes">—</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Low Stock</div>
+            <div class="stat-value stat-warning" id="lowStock">—</div>
+        </div>
+
+    </section>
+
+    <!-- MAIN CONTENT -->
+
+    <section class="main-grid">
+
+        <!-- ADD MATERIAL -->
+
+        <div class="card">
+
+            <div class="card-header">
+                <div class="card-title">Record Material</div>
+                <div class="card-description">
+                    Add a new inward entry to the ledger.
+                </div>
+            </div>
+
+            <div class="form-body">
+
+                <form id="materialForm">
+
+                    <div class="field">
+                        <label for="matName">Material</label>
+
+                        <select id="matName" required>
+                            <option value="OPC Cement">OPC Cement</option>
+                            <option value="TMT Steel Bars">TMT Steel Bars</option>
+                            <option value="Fine River Sand">Fine River Sand</option>
+                            <option value="Coarse Aggregate">Coarse Aggregate</option>
+                            <option value="Bricks">Bricks</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="matQty">Quantity</label>
+                        <input
+                            type="number"
+                            id="matQty"
+                            value="50"
+                            min="1"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="matPrice">Unit Price (₹)</label>
+                        <input
+                            type="number"
+                            id="matPrice"
+                            value="450"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="total-box">
+                        <span class="total-label">Calculated Cost</span>
+                        <span class="total-value" id="computedTotal">₹22,500.00</span>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="save-button"
+                        id="saveButton"
+                    >
+                        Save Material
+                    </button>
+
+                    <div id="formMessage" class="message"></div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- LEDGER -->
+
+        <div class="card">
+
+            <div class="card-header ledger-header">
+
+                <div>
+                    <div class="card-title">Active Site Ledger</div>
+                    <div class="card-description">
+                        Live inventory records from the database.
+                    </div>
+                </div>
+
+                <button
+                    class="refresh-button"
+                    id="refreshButton"
+                    type="button"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="inventoryRows">
+
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                Connecting to IDORA...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- IMPORTANT: Actual Supabase JavaScript library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Your application code -->
+<script src="app.js"></script>
+
 </body>
 </html>
