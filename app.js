@@ -1,6 +1,6 @@
 // Connect directly to your cloud Supabase database
 const SUPABASE_URL = "https://supabase.co"; 
-const SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZXRtb3JydnRwaXdrZ2llY2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTAyMzMsImV4cCI6MjEwMzYyNjIzM30.HiZAKbpvNgtj1V87rjNI7EXdGhUfwoaX0xy974PeoRc; // Right click and paste your long key between these quotes!
+const SUPABASE_KEY ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZXRtb3JydnRwaXdrZ2llY2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTAyMzMsImV4cCI6MjEwMzYyNjIzM30.HiZAKbpvNgtj1V87rjNI7EXdGhUfwoaX0xy974PeoRc"; // Right click and paste your long key between these quotes!
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Fetch data from SQL when the website loads
