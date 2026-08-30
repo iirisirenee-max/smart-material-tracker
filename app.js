@@ -1,74 +1,375 @@
-// 1. Core Connection Configuration Strings
-const SUPABASE_URL = "https://supabase.co"; 
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsZXRtb3JydnRwaXdrZ2llY2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwNTAyMzMsImV4cCI6MjEwMzYyNjIzM30.HiZAKbpvNgtj1V87rjNI7EXdGhUfwoaX0xy974PeoRc"; 
+// ============================================================
+// IDORA — SMART MATERIAL INTELLIGENCE
+// Supabase Database Connection
+// ============================================================
 
-// 2. Initialize the client safely using a unique name to prevent naming conflicts
-const dbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// IMPORTANT:
+// Replace these TWO values with your actual Supabase project
+// URL and PUBLIC anon/publishable key.
 
-// Fetch data from SQL when the website loads
-async function fetchInventory() {
-    // We call dbClient instead of supabase to avoid initialization lag bugs
-    const { data, error } = await dbClient
-        .from('inventory')
-        .select('*')
-        .order('id', { ascending: false });
+const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_VyVQ-v-FkOg6LIkk-gdwtQ_auoGdvSo";
 
-    if (error) {
-        console.error(error);
-        return;
-    }
 
-    const tableBody = document.getElementById("inventoryRows");
-    tableBody.innerHTML = ""; // Clear active placeholder rows
+// ============================================================
+// INITIALIZE SUPABASE
+// ============================================================
 
-    if (!data || data.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 20px;">No entries logged yet, bro!</td></tr>`;
-        return;
-    }
-
-    // Loop through your cloud database table rows using your C logic mindset
-    data.forEach(item => {
-        let statusBadge = `<span class="badge success">Optimal</span>`;
-        let rowClass = "";
-        
-        if (item.quantity < 15) {
-            statusBadge = `<span class="badge danger">Low Stock</span>`;
-            rowClass = "alert-row";
-        }
-
-        let row = `<tr class="${rowClass}">
-            <td>${item.material_name}</td>
-            <td>${item.quantity}</td>
-            <td>₹${parseFloat(item.unit_price).toFixed(2)}</td>
-            <td>₹${parseFloat(item.total_cost).toFixed(2)}</td>
-            <td>${statusBadge}</td>
-        </tr>`;
-        tableBody.innerHTML += row;
-    });
+if (!window.supabase) {
+    console.error("Supabase library failed to load.");
+    showMessage(
+        "Supabase library failed to load. Check your internet connection.",
+        "error"
+    );
+    throw new Error("Supabase library unavailable.");
 }
 
-// Intercept form submissions and write row entries into SQL database
-document.getElementById("materialForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    let name = document.getElementById("matName").value;
-    let qty = parseInt(document.getElementById("matQty").value);
-    let price = parseFloat(document.getElementById("matPrice").value);
-    
-    let computedTotal = qty * price;
+const dbClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-    // Send an API-driven SQL INSERT command straight to your cloud grid
-    const { error } = await dbClient
-        .from('inventory')
-        .insert([{ material_name: name, quantity: qty, unit_price: price, total_cost: computedTotal }]);
 
-    if (error) {
-        alert("Error saving your entry to the database!");
-        console.error(error);
-    } else {
-        fetchInventory(); // Instantly refresh data layout grid on your screen
+// ============================================================
+// DOM ELEMENTS
+// ============================================================
+
+const materialForm = document.getElementById("materialForm");
+const inventoryRows = document.getElementById("inventoryRows");
+
+const matName = document.getElementById("matName");
+const matQty = document.getElementById("matQty");
+const matPrice = document.getElementById("matPrice");
+
+const computedTotal = document.getElementById("computedTotal");
+const saveButton = document.getElementById("saveButton");
+const refreshButton = document.getElementById("refreshButton");
+
+const totalEntries = document.getElementById("totalEntries");
+const stockValue = document.getElementById("stockValue");
+const materialTypes = document.getElementById("materialTypes");
+const lowStock = document.getElementById("lowStock");
+
+
+// ============================================================
+// HELPER — SHOW FORM MESSAGE
+// ============================================================
+
+function showMessage(message, type) {
+
+    const box = document.getElementById("formMessage");
+
+    box.textContent = message;
+    box.className = `message ${type}`;
+
+}
+
+
+// ============================================================
+// HELPER — FORMAT RUPEES
+// ============================================================
+
+function formatRupees(value) {
+
+    return new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 2
+    }).format(Number(value) || 0);
+
+}
+
+
+// ============================================================
+// LIVE TOTAL CALCULATION
+// ============================================================
+
+function updateCalculatedTotal() {
+
+    const quantity = Number(matQty.value) || 0;
+    const price = Number(matPrice.value) || 0;
+
+    const total = quantity * price;
+
+    computedTotal.textContent = formatRupees(total);
+
+}
+
+matQty.addEventListener("input", updateCalculatedTotal);
+matPrice.addEventListener("input", updateCalculatedTotal);
+
+
+// ============================================================
+// FETCH INVENTORY
+// ============================================================
+
+async function fetchInventory() {
+
+    inventoryRows.innerHTML = `
+        <tr>
+            <td colspan="5" class="empty-state">
+                Loading live inventory...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const { data, error } = await dbClient
+            .from("inventory")
+            .select("*")
+            .order("id", { ascending: false });
+
+        if (error) {
+            throw error;
+        }
+
+        renderInventory(data || []);
+
+    } catch (error) {
+
+        console.error("Inventory fetch error:", error);
+
+        inventoryRows.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    Unable to load inventory.
+                    <br><br>
+                    Check your Supabase URL, public key, and RLS policies.
+                </td>
+            </tr>
+        `;
+
+        totalEntries.textContent = "—";
+        stockValue.textContent = "—";
+        materialTypes.textContent = "—";
+        lowStock.textContent = "—";
     }
+
+}
+
+
+// ============================================================
+// RENDER INVENTORY
+// ============================================================
+
+function renderInventory(data) {
+
+    inventoryRows.innerHTML = "";
+
+    if (data.length === 0) {
+
+        inventoryRows.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty-state">
+                    No material entries yet.
+                    <br>
+                    Add your first material using the form.
+                </td>
+            </tr>
+        `;
+
+        updateStats([]);
+
+        return;
+    }
+
+
+    data.forEach(item => {
+
+        const quantity = Number(item.quantity) || 0;
+        const price = Number(item.unit_price) || 0;
+        const total = Number(item.total_cost) || quantity * price;
+
+        const isLowStock = quantity < 15;
+
+        const row = document.createElement("tr");
+
+        if (isLowStock) {
+            row.classList.add("alert-row");
+        }
+
+        row.innerHTML = `
+            <td class="material-name">
+                ${escapeHTML(item.material_name)}
+            </td>
+
+            <td>
+                ${quantity}
+            </td>
+
+            <td class="price">
+                ${formatRupees(price)}
+            </td>
+
+            <td>
+                ${formatRupees(total)}
+            </td>
+
+            <td>
+                ${
+                    isLowStock
+                    ? `<span class="badge danger">Low Stock</span>`
+                    : `<span class="badge success">Optimal</span>`
+                }
+            </td>
+        `;
+
+        inventoryRows.appendChild(row);
+
+    });
+
+
+    updateStats(data);
+
+}
+
+
+// ============================================================
+// DASHBOARD STATISTICS
+// ============================================================
+
+function updateStats(data) {
+
+    const total = data.reduce(
+        (sum, item) => sum + (Number(item.total_cost) || 0),
+        0
+    );
+
+    const types = new Set(
+        data.map(item => item.material_name)
+    ).size;
+
+    const low = data.filter(
+        item => Number(item.quantity) < 15
+    ).length;
+
+    totalEntries.textContent = data.length;
+    stockValue.textContent = formatRupees(total);
+    materialTypes.textContent = types;
+    lowStock.textContent = low;
+
+}
+
+
+// ============================================================
+// SAVE MATERIAL
+// ============================================================
+
+materialForm.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    const name = matName.value;
+    const quantity = Number(matQty.value);
+    const price = Number(matPrice.value);
+
+    if (!name || quantity <= 0 || price < 0) {
+
+        showMessage(
+            "Please enter valid material information.",
+            "error"
+        );
+
+        return;
+    }
+
+    const totalCost = quantity * price;
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    showMessage(
+        "Writing material to the live database...",
+        "success"
+    );
+
+    try {
+
+        const { error } = await dbClient
+            .from("inventory")
+            .insert([
+                {
+                    material_name: name,
+                    quantity: quantity,
+                    unit_price: price,
+                    total_cost: totalCost
+                }
+            ]);
+
+        if (error) {
+            throw error;
+        }
+
+        showMessage(
+            "✓ Material successfully saved to IDORA.",
+            "success"
+        );
+
+        materialForm.reset();
+
+        matQty.value = 50;
+        matPrice.value = 450;
+
+        updateCalculatedTotal();
+
+        await fetchInventory();
+
+    } catch (error) {
+
+        console.error("Database insert error:", error);
+
+        showMessage(
+            `Unable to save material: ${error.message}`,
+            "error"
+        );
+
+    } finally {
+
+        saveButton.disabled = false;
+        saveButton.textContent = "Save Material";
+
+    }
+
 });
 
-// Run immediate data fetch when webpage boots up
+
+// ============================================================
+// REFRESH BUTTON
+// ============================================================
+
+refreshButton.addEventListener("click", async function () {
+
+    refreshButton.textContent = "Loading...";
+    refreshButton.disabled = true;
+
+    await fetchInventory();
+
+    refreshButton.textContent = "Refresh";
+    refreshButton.disabled = false;
+
+});
+
+
+// ============================================================
+// BASIC HTML ESCAPING
+// ============================================================
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+// ============================================================
+// START APPLICATION
+// ============================================================
+
+updateCalculatedTotal();
 fetchInventory();
