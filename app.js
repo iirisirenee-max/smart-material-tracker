@@ -7,7 +7,7 @@
 // Replace these TWO values with your actual Supabase project
 // URL and PUBLIC anon/publishable key.
 
-const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://xletmorrvtpiwkgieccn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_VyVQ-v-FkOg6LIkk-gdwtQ_auoGdvSo";
 
 
