@@ -1,0 +1,16 @@
+{
+  "short_name": "IDORA",
+  "name": "IDORA Smart Material Tracker",
+  "icons": [
+    {
+      "src": "https://dicebear.com",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#1e293b",
+  "theme_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait"
+}
