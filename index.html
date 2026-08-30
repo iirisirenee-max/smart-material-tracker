@@ -10,633 +10,561 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
-    --bg: #0b0d0b;
-    --surface: #141714;
-    --surface-2: #1b1e1a;
-    --surface-3: #242821;
-    --border: #30352d;
-
-    --text: #f4f1e8;
-    --muted: #94998e;
-
-    --accent: #d6a84f;
-    --accent-light: #f0cf7a;
-
-    --green: #7fba87;
-    --red: #e47d70;
-    --yellow: #e5b85c;
-
-    --shadow: 0 18px 50px rgba(0,0,0,.28);
+    --bg:#0b0d0b;
+    --surface:#141714;
+    --surface-2:#1b1e1a;
+    --border:#30352d;
+    --text:#f4f1e8;
+    --muted:#94998e;
+    --accent:#d6a84f;
+    --accent-light:#f0cf7a;
+    --green:#7fba87;
+    --red:#e47d70;
+    --blue:#79aee8;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body {
-    min-height: 100vh;
+    min-height:100vh;
     background:
-        radial-gradient(circle at 85% -10%, rgba(214,168,79,.13), transparent 30%),
-        radial-gradient(circle at -10% 80%, rgba(127,186,135,.045), transparent 25%),
+        radial-gradient(circle at 85% -10%,rgba(214,168,79,.13),transparent 30%),
+        radial-gradient(circle at -10% 80%,rgba(127,186,135,.045),transparent 25%),
         var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', Arial, sans-serif;
+    color:var(--text);
+    font-family:'DM Sans',Arial,sans-serif;
 }
 
-button,
-input,
-select {
-    font: inherit;
+button,input,select {
+    font:inherit;
 }
 
 button {
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color:transparent;
 }
 
 .app {
-    width: min(1440px, 94%);
-    margin: auto;
-    padding: 28px 0 60px;
+    width:min(1440px,94%);
+    margin:auto;
+    padding:28px 0 60px;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:48px;
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
 .logo {
-    width: 48px;
-    height: 48px;
-    display: grid;
-    place-items: center;
-
-    border: 1px solid rgba(214,168,79,.45);
-    border-radius: 13px;
-
-    background: rgba(214,168,79,.05);
-    color: var(--accent-light);
-
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -1px;
-
-    box-shadow: 0 0 30px rgba(214,168,79,.06);
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(214,168,79,.45);
+    border-radius:13px;
+    background:rgba(214,168,79,.05);
+    color:var(--accent-light);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    letter-spacing:-1px;
 }
 
 .brand-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 23px;
-    font-weight: 700;
-    letter-spacing: 4px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:23px;
+    font-weight:700;
+    letter-spacing:4px;
 }
 
 .brand-subtitle {
-    color: var(--muted);
-    font-size: 10px;
-    margin-top: 3px;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
 }
 
 .site-status {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-
-    padding: 9px 14px;
-
-    border: 1px solid var(--border);
-    border-radius: 30px;
-
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: .5px;
-
-    background: rgba(255,255,255,.015);
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 14px;
+    border:1px solid var(--border);
+    border-radius:30px;
+    color:var(--muted);
+    font-size:11px;
 }
 
 .live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 12px rgba(127,186,135,.75);
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px rgba(127,186,135,.75);
 }
 
-/* ================= HERO ================= */
+/* HERO */
 
 .hero {
-    margin-bottom: 34px;
+    margin-bottom:34px;
 }
 
 .eyebrow {
-    color: var(--accent);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
+    color:var(--accent);
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    margin-bottom:12px;
 }
 
 .hero h1 {
-    max-width: 760px;
-
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(38px, 5vw, 62px);
-    line-height: 1;
-    letter-spacing: -3px;
+    max-width:760px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(38px,5vw,62px);
+    line-height:1;
+    letter-spacing:-3px;
 }
 
 .hero h1 span {
-    color: var(--accent-light);
+    color:var(--accent-light);
 }
 
 .hero p {
-    max-width: 680px;
-    margin-top: 15px;
-
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.7;
+    max-width:680px;
+    margin-top:15px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
 }
 
-/* ================= STATS ================= */
+/* STATS */
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 22px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:22px;
 }
 
 .stat {
-    position: relative;
-    overflow: hidden;
-
-    padding: 21px;
-
-    background:
-        linear-gradient(145deg, rgba(36,40,33,.95), rgba(20,23,20,.95));
-
-    border: 1px solid var(--border);
-    border-radius: 16px;
-
-    box-shadow: var(--shadow);
-
-    transition: transform .2s ease, border-color .2s ease;
+    padding:21px;
+    background:linear-gradient(145deg,rgba(36,40,33,.95),rgba(20,23,20,.95));
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    transition:.2s;
 }
 
 .stat:hover {
-    transform: translateY(-2px);
-    border-color: #41473d;
-}
-
-.stat::after {
-    content: "";
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    right: -35px;
-    bottom: -35px;
-
-    background: rgba(214,168,79,.06);
-    border-radius: 50%;
+    transform:translateY(-2px);
+    border-color:#41473d;
 }
 
 .stat-label {
-    color: var(--muted);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.4px;
 }
 
 .stat-value {
-    margin-top: 9px;
-
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 28px;
-    font-weight: 600;
+    margin-top:9px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:28px;
+    font-weight:600;
 }
 
 .stat-accent {
-    color: var(--accent-light);
+    color:var(--accent-light);
 }
 
 .stat-warning {
-    color: var(--red);
+    color:var(--red);
 }
 
-/* ================= MAIN ================= */
+/* MAIN GRID */
 
 .main-grid {
-    display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 20px;
-    align-items: start;
+    display:grid;
+    grid-template-columns:350px 1fr;
+    gap:20px;
+    align-items:start;
 }
 
 .card {
-    background: rgba(20,23,20,.94);
-
-    border: 1px solid var(--border);
-    border-radius: 18px;
-
-    box-shadow: var(--shadow);
-    overflow: hidden;
+    background:rgba(20,23,20,.94);
+    border:1px solid var(--border);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
 }
 
 .card-header {
-    padding: 21px 22px 18px;
-    border-bottom: 1px solid var(--border);
+    padding:21px 22px 18px;
+    border-bottom:1px solid var(--border);
 }
 
 .card-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 17px;
-    font-weight: 600;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:17px;
+    font-weight:600;
 }
 
 .card-description {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 5px;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
 }
 
-/* ================= FORM ================= */
+/* TABS */
+
+.tabs {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border-bottom:1px solid var(--border);
+}
+
+.tab {
+    border:0;
+    border-radius:0;
+    background:transparent;
+    color:var(--muted);
+    padding:13px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:700;
+}
+
+.tab.active {
+    color:var(--accent-light);
+    background:rgba(214,168,79,.07);
+    box-shadow:inset 0 -2px var(--accent);
+}
+
+/* FORM */
 
 .form-body {
-    padding: 22px;
+    padding:22px;
 }
 
 .field {
-    margin-bottom: 17px;
+    margin-bottom:17px;
 }
 
 label {
-    display: block;
-
-    color: #c4c7bf;
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: 1px;
-
-    margin-bottom: 7px;
+    display:block;
+    color:#c4c7bf;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:7px;
 }
 
-input,
-select {
-    width: 100%;
-
-    border: 1px solid var(--border);
-    background: #0e100e;
-    color: var(--text);
-
-    border-radius: 10px;
-    padding: 12px 13px;
-
-    outline: none;
-    transition: .2s;
+input,select {
+    width:100%;
+    border:1px solid var(--border);
+    background:#0e100e;
+    color:var(--text);
+    border-radius:10px;
+    padding:12px 13px;
+    outline:none;
+    transition:.2s;
 }
 
-input:hover,
-select:hover {
-    border-color: #444a40;
-}
-
-input:focus,
-select:focus {
-    border-color: rgba(214,168,79,.8);
-    box-shadow: 0 0 0 3px rgba(214,168,79,.08);
+input:focus,select:focus {
+    border-color:rgba(214,168,79,.8);
+    box-shadow:0 0 0 3px rgba(214,168,79,.08);
 }
 
 select {
-    cursor: pointer;
+    cursor:pointer;
 }
 
 .total-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    background: rgba(214,168,79,.065);
-    border: 1px solid rgba(214,168,79,.18);
-
-    padding: 14px;
-    border-radius: 11px;
-    margin-top: 5px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(214,168,79,.065);
+    border:1px solid rgba(214,168,79,.18);
+    padding:14px;
+    border-radius:11px;
+    margin-top:5px;
 }
 
 .total-label {
-    color: var(--muted);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 .total-value {
-    color: var(--accent-light);
-
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
+    color:var(--accent-light);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:16px;
+    font-weight:700;
 }
 
 .save-button {
-    width: 100%;
-
-    margin-top: 17px;
-    padding: 13px;
-
-    border: 0;
-    border-radius: 10px;
-
-    background: var(--accent);
-    color: #17130b;
-
-    font-weight: 700;
-    cursor: pointer;
-
-    transition: .2s;
+    width:100%;
+    margin-top:17px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:var(--accent);
+    color:#17130b;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
 }
 
 .save-button:hover {
-    background: var(--accent-light);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(214,168,79,.12);
-}
-
-.save-button:active {
-    transform: translateY(0);
+    background:var(--accent-light);
+    transform:translateY(-1px);
 }
 
 .save-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    opacity:.55;
+    cursor:not-allowed;
 }
 
 .message {
-    display: none;
-    margin-top: 12px;
-    padding: 10px 12px;
-
-    border-radius: 9px;
-    font-size: 12px;
-    line-height: 1.5;
+    display:none;
+    margin-top:12px;
+    padding:10px 12px;
+    border-radius:9px;
+    font-size:12px;
+    line-height:1.5;
 }
 
 .message.success {
-    display: block;
-
-    color: var(--green);
-    background: rgba(127,186,135,.08);
-    border: 1px solid rgba(127,186,135,.2);
+    display:block;
+    color:var(--green);
+    background:rgba(127,186,135,.08);
+    border:1px solid rgba(127,186,135,.2);
 }
 
 .message.error {
-    display: block;
-
-    color: var(--red);
-    background: rgba(228,125,112,.08);
-    border: 1px solid rgba(228,125,112,.2);
+    display:block;
+    color:var(--red);
+    background:rgba(228,125,112,.08);
+    border:1px solid rgba(228,125,112,.2);
 }
 
-/* ================= LEDGER ================= */
+/* USAGE FORM */
+
+.usage-form {
+    display:none;
+}
+
+.usage-note {
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+    margin-bottom:18px;
+    padding:10px 12px;
+    background:rgba(121,174,232,.06);
+    border:1px solid rgba(121,174,232,.15);
+    border-radius:9px;
+}
+
+/* LEDGER */
 
 .ledger-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
 .refresh-button {
-    background: transparent;
-    color: var(--muted);
-
-    border: 1px solid var(--border);
-    border-radius: 8px;
-
-    padding: 7px 12px;
-
-    cursor: pointer;
-    font-size: 11px;
-
-    transition: .2s;
+    background:transparent;
+    color:var(--muted);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:7px 12px;
+    cursor:pointer;
+    font-size:11px;
 }
 
 .refresh-button:hover {
-    color: var(--text);
-    border-color: #555b52;
-    background: rgba(255,255,255,.025);
-}
-
-.refresh-button:disabled {
-    opacity: .5;
-    cursor: not-allowed;
+    color:var(--text);
+    border-color:#555b52;
 }
 
 .table-wrap {
-    overflow-x: auto;
+    overflow-x:auto;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 650px;
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
 }
 
 th {
-    padding: 13px 18px;
-
-    text-align: left;
-
-    color: var(--muted);
-    background: #111311;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding:13px 18px;
+    text-align:left;
+    color:var(--muted);
+    background:#111311;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 td {
-    padding: 16px 18px;
-
-    border-top: 1px solid var(--border);
-
-    color: #dddcd5;
-    font-size: 13px;
-}
-
-tbody tr {
-    transition: background .15s ease;
+    padding:16px 18px;
+    border-top:1px solid var(--border);
+    color:#dddcd5;
+    font-size:13px;
 }
 
 tbody tr:hover {
-    background: rgba(255,255,255,.025);
+    background:rgba(255,255,255,.025);
 }
 
 .material-name {
-    color: #f0eee6;
-    font-weight: 600;
+    color:#f0eee6;
+    font-weight:600;
 }
 
 .price {
-    color: var(--accent-light);
+    color:var(--accent-light);
 }
 
 .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    padding: 5px 9px;
-
-    border-radius: 20px;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: .5px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.5px;
 }
 
 .badge::before {
-    content: "";
-
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
+    content:"";
+    width:5px;
+    height:5px;
+    border-radius:50%;
 }
 
 .badge.success {
-    color: var(--green);
-    background: rgba(127,186,135,.08);
+    color:var(--green);
+    background:rgba(127,186,135,.08);
 }
 
 .badge.success::before {
-    background: var(--green);
+    background:var(--green);
 }
 
 .badge.danger {
-    color: var(--red);
-    background: rgba(228,125,112,.08);
+    color:var(--red);
+    background:rgba(228,125,112,.08);
 }
 
 .badge.danger::before {
-    background: var(--red);
+    background:var(--red);
 }
 
 .alert-row {
-    background: rgba(228,125,112,.035);
+    background:rgba(228,125,112,.035);
 }
 
 .empty-state {
-    text-align: center;
-    color: var(--muted);
-    padding: 45px 20px;
-    line-height: 1.5;
+    text-align:center;
+    color:var(--muted);
+    padding:45px 20px;
+    line-height:1.5;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-top: 24px;
-    padding: 0 3px;
-
-    color: #62675e;
-    font-size: 10px;
-    letter-spacing: .5px;
+    display:flex;
+    justify-content:space-between;
+    margin-top:24px;
+    color:#62675e;
+    font-size:10px;
 }
 
 .footer strong {
-    color: #898e84;
+    color:#898e84;
 }
 
-/* ================= RESPONSIVE ================= */
+/* RESPONSIVE */
 
-@media (max-width: 1000px) {
+@media(max-width:1000px) {
 
     .stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .main-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
     }
-
 }
 
-@media (max-width: 600px) {
+@media(max-width:600px) {
 
     .app {
-        width: 92%;
-        padding-top: 20px;
+        width:92%;
+        padding-top:20px;
     }
 
     header {
-        margin-bottom: 35px;
+        margin-bottom:35px;
     }
 
     .site-status {
-        display: none;
+        display:none;
     }
 
     .brand-name {
-        font-size: 20px;
+        font-size:20px;
     }
 
     .stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
+        grid-template-columns:1fr 1fr;
+        gap:9px;
     }
 
     .stat {
-        padding: 15px;
+        padding:15px;
     }
 
     .stat-value {
-        font-size: 21px;
+        font-size:21px;
     }
 
     .hero h1 {
-        font-size: 37px;
-        letter-spacing: -2px;
-    }
-
-    .hero p {
-        font-size: 13px;
+        font-size:37px;
+        letter-spacing:-2px;
     }
 
     .footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
+        flex-direction:column;
+        gap:5px;
     }
-
 }
 </style>
 </head>
@@ -645,358 +573,343 @@ tbody tr:hover {
 
 <div class="app">
 
-    <!-- HEADER -->
+<header>
+    <div class="brand">
+        <div class="logo">ID</div>
+        <div>
+            <div class="brand-name">IDORA</div>
+            <div class="brand-subtitle">
+                Smart Material Intelligence
+            </div>
+        </div>
+    </div>
 
-    <header>
+    <div class="site-status">
+        <span class="live-dot"></span>
+        SITE JRT-N26 · LIVE
+    </div>
+</header>
 
-        <div class="brand">
 
-            <div class="logo">ID</div>
+<section class="hero">
 
-            <div>
-                <div class="brand-name">IDORA</div>
-                <div class="brand-subtitle">
-                    Smart Material Intelligence
+    <div class="eyebrow">
+        Construction Material Control
+    </div>
+
+    <h1>
+        Know what is<br>
+        <span>on site.</span>
+    </h1>
+
+    <p>
+        Track incoming materials, monitor consumption,
+        and keep your construction expenditure connected
+        to live cloud data.
+    </p>
+
+</section>
+
+
+<section class="stats">
+
+    <div class="stat">
+        <div class="stat-label">Total Entries</div>
+        <div class="stat-value" id="totalEntries">—</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-label">Stock Value</div>
+        <div class="stat-value stat-accent" id="stockValue">—</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-label">Material Types</div>
+        <div class="stat-value" id="materialTypes">—</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-label">Low Stock</div>
+        <div class="stat-value stat-warning" id="lowStock">—</div>
+    </div>
+
+</section>
+
+
+<section class="main-grid">
+
+
+<!-- MATERIAL CONTROL -->
+
+<div class="card">
+
+    <div class="tabs">
+
+        <button
+            type="button"
+            class="tab active"
+            id="inwardTab"
+        >
+            + INWARD
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            id="usageTab"
+        >
+            − USAGE
+        </button>
+
+    </div>
+
+
+    <!-- INWARD FORM -->
+
+    <div id="inwardPanel">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Record Material
+            </div>
+
+            <div class="card-description">
+                Add a new incoming material entry.
+            </div>
+
+        </div>
+
+
+        <div class="form-body">
+
+            <form id="materialForm">
+
+                <div class="field">
+
+                    <label for="matName">
+                        Material
+                    </label>
+
+                    <select id="matName" required>
+
+                        <option value="OPC Cement">
+                            OPC Cement
+                        </option>
+
+                        <option value="TMT Steel Bars">
+                            TMT Steel Bars
+                        </option>
+
+                        <option value="Fine River Sand">
+                            Fine River Sand
+                        </option>
+
+                        <option value="Coarse Aggregate">
+                            Coarse Aggregate
+                        </option>
+
+                        <option value="Bricks">
+                            Bricks
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
                 </div>
-            </div>
 
-        </div>
 
-        <div class="site-status">
-            <span class="live-dot"></span>
-            SITE JRT-N26 · LIVE
-        </div>
+                <div class="field">
 
-    </header>
+                    <label for="matQty">
+                        Quantity
+                    </label>
 
-
-    <!-- HERO -->
-
-    <section class="hero">
-
-        <div class="eyebrow">
-            Construction Material Control
-        </div>
-
-        <h1>
-            Know what is<br>
-            <span>on site.</span>
-        </h1>
-
-        <p>
-            Track incoming materials, monitor stock conditions,
-            and keep your construction expenditure connected
-            to live data.
-        </p>
-
-    </section>
-
-
-    <!-- DASHBOARD STATS -->
-
-    <section class="stats">
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Total Entries
-            </div>
-
-            <div
-                class="stat-value"
-                id="totalEntries"
-            >
-                —
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Stock Value
-            </div>
-
-            <div
-                class="stat-value stat-accent"
-                id="stockValue"
-            >
-                —
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Material Types
-            </div>
-
-            <div
-                class="stat-value"
-                id="materialTypes"
-            >
-                —
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Low Stock
-            </div>
-
-            <div
-                class="stat-value stat-warning"
-                id="lowStock"
-            >
-                —
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- MAIN -->
-
-    <section class="main-grid">
-
-
-        <!-- RECORD MATERIAL -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-title">
-                    Record Material
-                </div>
-
-                <div class="card-description">
-                    Add a new inward entry to the live ledger.
-                </div>
-
-            </div>
-
-
-            <div class="form-body">
-
-                <form id="materialForm">
-
-
-                    <div class="field">
-
-                        <label for="matName">
-                            Material
-                        </label>
-
-                        <select id="matName" required>
-
-                            <option value="OPC Cement">
-                                OPC Cement
-                            </option>
-
-                            <option value="TMT Steel Bars">
-                                TMT Steel Bars
-                            </option>
-
-                            <option value="Fine River Sand">
-                                Fine River Sand
-                            </option>
-
-                            <option value="Coarse Aggregate">
-                                Coarse Aggregate
-                            </option>
-
-                            <option value="Bricks">
-                                Bricks
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="matQty">
-                            Quantity
-                        </label>
-
-                        <input
-                            type="number"
-                            id="matQty"
-                            value="50"
-                            min="1"
-                            step="0.01"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="matPrice">
-                            Unit Price (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="matPrice"
-                            value="450"
-                            min="0"
-                            step="0.01"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="total-box">
-
-                        <span class="total-label">
-                            Calculated Cost
-                        </span>
-
-                        <span
-                            class="total-value"
-                            id="computedTotal"
-                        >
-                            ₹22,500.00
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="save-button"
-                        id="saveButton"
+                    <input
+                        type="number"
+                        id="matQty"
+                        value="50"
+                        min="1"
+                        step="0.01"
+                        required
                     >
-                        Save Material
-                    </button>
+
+                </div>
 
 
-                    <div
-                        id="formMessage"
-                        class="message"
-                    ></div>
+                <div class="field">
+
+                    <label for="matPrice">
+                        Unit Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="matPrice"
+                        value="450"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
 
 
-                </form>
+                <div class="total-box">
 
-            </div>
+                    <span class="total-label">
+                        Calculated Cost
+                    </span>
 
-        </div>
-
-
-        <!-- LEDGER -->
-
-        <div class="card">
-
-            <div class="card-header ledger-header">
-
-                <div>
-
-                    <div class="card-title">
-                        Active Site Ledger
-                    </div>
-
-                    <div class="card-description">
-                        Live inventory records from the cloud database.
-                    </div>
+                    <span
+                        class="total-value"
+                        id="computedTotal"
+                    >
+                        ₹22,500.00
+                    </span>
 
                 </div>
 
 
                 <button
-                    class="refresh-button"
-                    id="refreshButton"
-                    type="button"
+                    type="submit"
+                    class="save-button"
+                    id="saveButton"
                 >
-                    Refresh
+                    Save Material
                 </button>
 
+
+                <div
+                    id="formMessage"
+                    class="message"
+                ></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- USAGE FORM -->
+
+    <div id="usagePanel" class="usage-form">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Record Usage
             </div>
 
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Material
-                            </th>
-
-                            <th>
-                                Quantity
-                            </th>
-
-                            <th>
-                                Unit Price
-                            </th>
-
-                            <th>
-                                Total Cost
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="inventoryRows">
-
-                        <tr>
-
-                            <td
-                                colspan="5"
-                                class="empty-state"
-                            >
-                                Connecting to IDORA...
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
+            <div class="card-description">
+                Log material consumed at the construction site.
             </div>
 
         </div>
 
-    </section>
+
+        <div class="form-body">
+
+            <div class="usage-note">
+                Record where the material was used, such as
+                "Foundation", "Column work", or "Slab casting".
+            </div>
 
 
-    <!-- FOOTER -->
+            <form id="usageForm">
 
-    <div class="footer">
+                <div class="field">
 
-        <div>
-            IDORA · SMART CONSTRUCTION MATERIAL CONTROL
-        </div>
+                    <label for="usageMaterial">
+                        Material
+                    </label>
 
-        <div>
-            <strong>LIVE DATABASE</strong> · JRT-N26
+                    <select id="usageMaterial" required>
+
+                        <option value="OPC Cement">
+                            OPC Cement
+                        </option>
+
+                        <option value="TMT Steel Bars">
+                            TMT Steel Bars
+                        </option>
+
+                        <option value="Fine River Sand">
+                            Fine River Sand
+                        </option>
+
+                        <option value="Coarse Aggregate">
+                            Coarse Aggregate
+                        </option>
+
+                        <option value="Bricks">
+                            Bricks
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="usageQty">
+                        Quantity Used
+                    </label>
+
+                    <input
+                        type="number"
+                        id="usageQty"
+                        value="10"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="usedFor">
+                        Used For
+                    </label>
+
+                    <input
+                        type="text"
+                        id="usedFor"
+                        placeholder="e.g. Foundation"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                    id="usageSaveButton"
+                >
+                    Record Usage
+                </button>
+
+
+                <div
+                    id="usageMessage"
+                    class="message"
+                ></div>
+
+            </form>
+
         </div>
 
     </div>
@@ -1004,9 +917,98 @@ tbody tr:hover {
 </div>
 
 
-<!-- SUPABASE MUST LOAD BEFORE APP.JS -->
+<!-- LEDGER -->
+
+<div class="card">
+
+    <div class="card-header ledger-header">
+
+        <div>
+
+            <div class="card-title">
+                Active Site Ledger
+            </div>
+
+            <div class="card-description">
+                Live inventory records from the cloud database.
+            </div>
+
+        </div>
+
+        <button
+            class="refresh-button"
+            id="refreshButton"
+            type="button"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Material</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total Cost</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="inventoryRows">
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        class="empty-state"
+                    >
+                        Connecting to IDORA...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<div class="footer">
+
+    <div>
+        IDORA · SMART CONSTRUCTION MATERIAL CONTROL
+    </div>
+
+    <div>
+        <strong>LIVE DATABASE</strong> · JRT-N26
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- IDORA APPLICATION -->
 
 <script src="app.js"></script>
 
